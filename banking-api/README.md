@@ -3,7 +3,7 @@
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=00FFFF&height=120&section=header"/>
 
-[![Typing SVG](https://readme-typing-svg.herokuapp.com/?color=00FFFF&size=35&center=true&vCenter=true&width=1000&lines=Olá,Objective!+seja+bem+vindo++ao+meu+reposítorio+🧑🏻‍💻.)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.herokuapp.com/?color=00FFFF&size=30&center=true&vCenter=true&width=1000&lines=Olá,Objective!+seja+bem+vindo++ao+meu+reposítorio+🧑🏻‍💻.)](https://git.io/typing-svg)
 
 Este projeto é o backend da aplicação **Banking API**, desenvolvido com Laravel e configurado para rodar em um ambiente Docker com Laravel Sail.  
 
@@ -139,8 +139,16 @@ Para configurar o banco de dados, rode as migrations:
     ./vendor/bin/sail artisan test
   ```
 
-- **Executar o servidor local:**  
-  O projeto estará disponível em [http://localhost](http://localhost).  
+  
+- **Executar API -  Transaction:**  
+    ```
+  O projeto estará disponível em [http://localhost:8000/api/transaction](POST).  
+  ```
+- **Executar API - Accounts POST:**  
+  O projeto estará disponível em - criar conta [http://localhost:8000/api/accounts](POST). 
+
+- **Executar API - Accounts:**  
+  O projeto estará disponível em - criar conta [http://localhost:8000/api/accounts/139](GET).
 
 ---
 
@@ -151,7 +159,7 @@ Para dúvidas ou problemas, entre em contato com [ElvynM](mailto:elvyn@example.c
 
 <div align="center">
 <br><p align="centre"><b>Visitors Count</b></p>  
-<p align="center"><img align="center" src="https://profile-counter.glitch.me/{elvyn}/count.svg" /></p> 
+<p align="center"><img align="center" src="https://profile-counter.glitch.me/{ELVYN}/count.svg" /></p> 
 <br>
 </div>
 

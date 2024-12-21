@@ -1,25 +1,35 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\Account;
+use App\Repository\Domain\TransactionRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\App;
 use Tests\TestCase;
 
 class TransactionTest extends TestCase
 {
     use RefreshDatabase;
 
+    private TransactionRepository $transactionRepository;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->transactionRepository = App::make(TransactionRepository::class);
+    }
+
     /** @test */
     public function processDebitTransaction()
     {
-
         $account = Account::create([
             'number_account' => 234,
             'balance' => 200.00,
         ]);
 
         $transactionAmount = 10.00;
-        $debitFee = 0.03 * $transactionAmount;
+        $debitFee = $this->transactionRepository->calculateFee('D', $transactionAmount);
         $totalAmount = $transactionAmount + $debitFee;
 
         $response = $this->postJson('/api/transaction', [
@@ -39,14 +49,13 @@ class TransactionTest extends TestCase
     /** @test */
     public function processCreditTransaction()
     {
-
         $account = Account::create([
             'number_account' => 234,
             'balance' => 200.00,
         ]);
 
         $transactionAmount = 10.00;
-        $creditFee = 0.05 * $transactionAmount;
+        $creditFee = $this->transactionRepository->calculateFee('C', $transactionAmount);
         $totalAmount = $transactionAmount + $creditFee;
 
         $response = $this->postJson('/api/transaction', [
@@ -56,7 +65,6 @@ class TransactionTest extends TestCase
         ]);
 
         $account->refresh();
-
         $response->assertStatus(201);
         $response->assertJson([
             'number_account' => $account->number_account,
@@ -64,11 +72,9 @@ class TransactionTest extends TestCase
         ]);
     }
 
-
     /** @test */
     public function processPixTransaction()
     {
-
         $account = Account::create([
             'number_account' => 234,
             'balance' => 200.00,
@@ -135,6 +141,4 @@ class TransactionTest extends TestCase
 
         $this->assertEquals(100.00, $account->fresh()->balance);
     }
-
 }
-

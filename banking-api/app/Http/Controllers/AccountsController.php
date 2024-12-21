@@ -1,12 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Account;
+use App\Repository\contracts\AccountRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class AccountsController extends Controller
 {
+    private $accountRepository;
+    public function __construct(AccountRepositoryInterface $accountRepository)
+    {
+        $this->accountRepository = $accountRepository;
+    }
+
     public function create(Request $request)
     {
         try{
@@ -15,7 +21,7 @@ class AccountsController extends Controller
                 'balance' => 'required|numeric|min:0',
             ],);
 
-            $accounts = Account::create($validation);
+            $accounts = $this->accountRepository->create($validation);
             return response()->json($accounts, 201);
 
         }catch(ValidationException $e){
@@ -30,7 +36,7 @@ class AccountsController extends Controller
 
     public function show($number_account)
     {
-        $account = Account::where('number_account', $number_account)->first();
+        $account = $this->accountRepository->findByNumber($number_account);
 
         if(!$account){
             return response()->json(['message' => 'Account not found'], 404);
